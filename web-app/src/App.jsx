@@ -1,32 +1,40 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
+import Select from 'react-select'
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
-
+  const [tab, setTab] = useState("user")
+  // const [poem, setPoem] = useState("")
+  const options = [{value: 'test', label: 'test'}, {value: 'test2', label: 'test2'}]
   return (
     <div className="App">
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <button onClick={() => setTab("user")}>Show tab 1</button>
+        <button onClick={() => setTab("generate")}>Show tab 2</button>
+
+        { tab == "user" && (
+            <div>
+              <div className='user-text'>
+                <label>Type poem below</label>
+                <textarea id="poem" name="poem" rows="5" cols="33">
+                </textarea>
+              </div>
+              <button className='upload'>Upload PDF/DOCX</button>
+            </div>
+          ) 
+        }
+
+        { tab == "generate" && (
+            <div>
+              Generate a <Select options={options}/> poem
+              <button>Generate</button>
+            </div>
+          ) 
+        }
+        <button type="submit">Classify</button>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
   )
 }
