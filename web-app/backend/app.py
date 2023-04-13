@@ -1,23 +1,35 @@
-from flask import Flask, request
 import torch
+import pickle
+from sklearn.feature_extraction.text import TfidfVectorizer
+from flask import Flask, request
 from transformers import GPT2LMHeadModel,  GPT2Tokenizer, GPT2Config, GPT2LMHeadModel
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
+# classifier
+classifier_model = pickle.load(open('poemsclassifier.sav', 'rb'))
+vectorizer = pickle.load(open('poemsvectorizer.sav', 'rb'))
+encoder = pickle.load(open('poemsencoder.sav', 'rb'))
+
+# generator
 tokenizer = GPT2Tokenizer.from_pretrained('gpt2', pad_token='<|pad|>')
 configuration = GPT2Config.from_pretrained('gpt2', output_hidden_states=False)
-model = GPT2LMHeadModel.from_pretrained("gpt2", config=configuration).to(device)
-model.resize_token_embeddings(len(tokenizer))
+generator_model = GPT2LMHeadModel.from_pretrained("gpt2", config=configuration).to(device)
+generator_model.resize_token_embeddings(len(tokenizer))
 
-model.load_state_dict(torch.load('poemsgenerator.pth', map_location=torch.device('cpu')))
+generator_model.load_state_dict(torch.load('poemsgenerator.pth', map_location=torch.device('cpu')))
 
 api = Flask(__name__)
 
 @api.route('/classify')
 def classify():
-    
+    poem = request.args.get('poem', default=" ", type=str)
+    poem_vectorized = vectorizer.transform([poem]).toarray()
+    classification_encoded = classifier_model.predict(poem_vectorized)
+    classification = encoder.inverse_transform(classification_encoded)[0]
+
     response_body = {
-        "classification": "class"
+        "classification": classification
     }
 
     return response_body
@@ -28,7 +40,7 @@ def generate():
     tokenized_prompt = torch.tensor(tokenizer.encode(prompt)).unsqueeze(0)
     tokenized_prompt = tokenized_prompt
 
-    generated_outputs = model.generate(
+    generated_outputs = generator_model.generate(
                                     tokenized_prompt, 
                                     do_sample=True,   
                                     top_k=50, 
