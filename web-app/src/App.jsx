@@ -7,18 +7,27 @@ function App() {
   const [count, setCount] = useState(0)
   const [tab, setTab] = useState("user")
   // const [poem, setPoem] = useState("")
-  const options = [{value: 'test', label: 'test'}, {value: 'test2', label: 'test2'}]
+  const options = [
+    {value: 'sad', label: 'sad'}, 
+    {value: 'love', label: 'love'},
+    {value: 'nature', label: 'nature'},
+    {value: 'family', label: 'family'},
+    {value: 'happy', label: 'happy'},
+    {value: 'evil', label: 'evil'},
+    {value: 'inspirational', label: 'inspirational'},
+  ]
+
   return (
     <div className="App">
-      <div>
+      <h1>PoetryMood</h1>
+      <div className="content">
         <button onClick={() => setTab("user")}>Show tab 1</button>
         <button onClick={() => setTab("generate")}>Show tab 2</button>
 
         { tab == "user" && (
             <div>
               <div className='user-text'>
-                <label>Type poem below</label>
-                <textarea id="poem" name="poem" rows="5" cols="33">
+                <textarea id="poem-textbox" name="poem" placeholder="Type your poem...">
                 </textarea>
               </div>
               <button className='upload'>Upload PDF/DOCX</button>
@@ -27,12 +36,15 @@ function App() {
         }
 
         { tab == "generate" && (
-            <div>
-              Generate a <Select options={options}/> poem
-              <button>Generate</button>
+            <div className="generate-textbox">
+              <p>Generate a </p>
+              <Select id="generate-select" options={options}/> 
+              <p>poem</p>
+              <button id="generate-button">Generate</button>
             </div>
           ) 
         }
+        
         <button type="submit">Classify</button>
       </div>
     </div>
