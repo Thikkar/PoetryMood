@@ -5,7 +5,7 @@
   text-align: center;
 }
 
-#poem-textbox {
+.poem-textbox {
   height: 200px;
   width: 400px;
   resize: none;
@@ -26,6 +26,18 @@
   margin: 0 0.5rem;
 }
 
+#enter-poem-area {
+  margin: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.panels {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
 
 
 @media (prefers-reduced-motion: no-preference) {

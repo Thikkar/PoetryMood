@@ -1,6 +1,7 @@
 {
   "name": "music-generator",
   "private": true,
+  "proxy": "http://127.0.0.1:5000",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
@@ -9,6 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@mantine/core": "^6.0.8",
+    "@mantine/hooks": "^6.0.8",
+    "axios": "^1.3.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-select": "^5.7.2"

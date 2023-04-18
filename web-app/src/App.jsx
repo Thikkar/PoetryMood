@@ -1,7 +1,10 @@
 import { useState } from 'react'
+import axios from "axios";
 import reactLogo from './assets/react.svg'
 import Select from 'react-select'
 import './App.css'
+
+import { MantineProvider, Button, Skeleton, Textarea, Title} from '@mantine/core';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -17,38 +20,109 @@ function App() {
     {value: 'inspirational', label: 'inspirational'},
   ]
 
+  const [classification, setClassification] = useState("")
+  const [poem, setPoem] = useState("")
+
+  function classifyClicked()
+  {
+    console.log("classify button clicked");
+
+    axios({
+      method: "GET",
+      url:`http://127.0.0.1:5000/classify?poem=${poem}`,
+    })
+    .then((response) => {
+      const res = response.data
+      setClassification(res.classification)
+    }).catch((error) => {
+      if (error.response) {
+        console.log(error.response)
+        console.log(error.response.status)
+        console.log(error.response.headers)
+        }
+    })
+  }
+
+  function generateClicked()
+  {
+    console.log("generate button clicked");
+    setPoem("Generating...")
+
+    prompt = "As a decrepit father takes delight When a babe falls asleep"
+    axios({
+      method: "GET",
+      url:`http://127.0.0.1:5000/generate?prompt=${prompt}`,
+    })
+    .then((response) => {
+      const res = response.data
+      console.log(res)
+      setPoem(res.poem)
+    }).catch((error) => {
+      if (error.response) {
+        console.log(error.response)
+        console.log(error.response.status)
+        console.log(error.response.headers)
+        }
+    })
+  }
+
+  function uploadClicked()
+  {
+    console.log("upload button clicked");
+  }
+
   return (
-    <div className="App">
-      <h1>PoetryMood</h1>
-      <div className="content">
-        <button onClick={() => setTab("user")}>Show tab 1</button>
-        <button onClick={() => setTab("generate")}>Show tab 2</button>
+    <MantineProvider withGlobalStyles withNormalizeCSS theme={{colorScheme: 'light'}}>
+      <Title
+        order={1}
 
-        { tab == "user" && (
-            <div>
-              <div className='user-text'>
-                <textarea id="poem-textbox" name="poem" placeholder="Type your poem...">
-                </textarea>
-              </div>
-              <button className='upload'>Upload PDF/DOCX</button>
-            </div>
-          ) 
-        }
+      >
+        PoetryMood
+      </Title>
+      {classification}
+      <div className="panels">
+        <div id="enter-poem-area">
+          <h3>Poem:</h3>
+          <Textarea
+            placeholder='Start your poem here...'
+            autosize
+            minRows={4}
+            maxRows={10}
+          >
 
-        { tab == "generate" && (
-            <div className="generate-textbox">
-              <p>Generate a </p>
-              <Select id="generate-select" options={options}/> 
-              <p>poem</p>
-              <button id="generate-button">Generate</button>
+          </Textarea>
+          <p>-----</p>
+          <div style={{"display" : "flex", "flexDirection" : "row"}}>
+            <div style={{"margin" : "10px"}}>
+              <Button color="indigo" variant="outline" onClick={uploadClicked}>
+                Upload PDF/DOCX
+              </Button>
             </div>
-          ) 
-        }
-        
-        <button type="submit">Classify</button>
+            <p>OR</p>
+            <div style={{"margin" : "10px"}}>
+            <Button variant="outline" onClick={generateClicked}>
+              Generate poem
+            </Button>
+            </div>
+          </div>
+        </div>
+        <Button
+          variant='gradient'
+          gradient={{from: 'indigo', to : 'cyan'}}
+          size='xl'
+          onClick={classifyClicked}
+          >
+          Classify!
+        </Button>
+        <div style={{"marginTop" : "50px", "marginLeft" : "30px"}}>
+          <Skeleton height={500} width={600}>
+          
+          </Skeleton>
+        </div>
       </div>
-    </div>
-  )
+    </MantineProvider>
+  );
+
 }
 
 export default App
