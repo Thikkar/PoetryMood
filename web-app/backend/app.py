@@ -1,7 +1,7 @@
 import torch
 import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from transformers import GPT2LMHeadModel,  GPT2Tokenizer, GPT2Config, GPT2LMHeadModel
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -31,6 +31,8 @@ def classify():
     response_body = {
         "classification": classification
     }
+    response_body = jsonify(response_body)
+    response_body.headers.add('Access-Control-Allow-Origin', '*')
 
     return response_body
 
@@ -53,4 +55,7 @@ def generate():
     response_body = {
         "poem": decoded_poem
     }
+    response_body = jsonify(response_body)
+    response_body.headers.add('Access-Control-Allow-Origin', '*')
+    
     return response_body

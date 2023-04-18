@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import axios from "axios";
 import reactLogo from './assets/react.svg'
 import Select from 'react-select'
 import './App.css'
@@ -19,6 +20,57 @@ function App() {
     {value: 'inspirational', label: 'inspirational'},
   ]
 
+  const [classification, setClassification] = useState("")
+  const [poem, setPoem] = useState("")
+
+  function classifyClicked()
+  {
+    console.log("classify button clicked");
+
+    axios({
+      method: "GET",
+      url:`http://127.0.0.1:5000/classify?poem=${poem}`,
+    })
+    .then((response) => {
+      const res = response.data
+      setClassification(res.classification)
+    }).catch((error) => {
+      if (error.response) {
+        console.log(error.response)
+        console.log(error.response.status)
+        console.log(error.response.headers)
+        }
+    })
+  }
+
+  function generateClicked()
+  {
+    console.log("generate button clicked");
+    setPoem("Generating...")
+
+    prompt = "As a decrepit father takes delight When a babe falls asleep"
+    axios({
+      method: "GET",
+      url:`http://127.0.0.1:5000/generate?prompt=${prompt}`,
+    })
+    .then((response) => {
+      const res = response.data
+      console.log(res)
+      setPoem(res.poem)
+    }).catch((error) => {
+      if (error.response) {
+        console.log(error.response)
+        console.log(error.response.status)
+        console.log(error.response.headers)
+        }
+    })
+  }
+
+  function uploadClicked()
+  {
+    console.log("upload button clicked");
+  }
+
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS theme={{colorScheme: 'light'}}>
       <Title
@@ -27,6 +79,7 @@ function App() {
       >
         PoetryMood
       </Title>
+      {classification}
       <div className="panels">
         <div id="enter-poem-area">
           <h3>Poem:</h3>
@@ -70,47 +123,6 @@ function App() {
     </MantineProvider>
   );
 
-  function classifyClicked()
-  {
-    console.log("classify button clicked");
-  }
-
-  function uploadClicked()
-  {
-    console.log("upload button clicked");
-  }
-
-  function generateClicked()
-  {
-    console.log("generate button clicked");
-  }
-
-  // return (
-  //   <div className="App">
-  //     <h1>PoetryMood</h1>
-  //     <div className="content">
-  //       <button onClick={() => setTab("user")}>Show tab 1</button>
-  //       <button onClick={() => setTab("generate")}>Show tab 2</button>
-
-  //       { tab == "user" && (
-  //           <div>
-  //             <div className='user-text'>
-  //               <textarea id="poem-textbox" name="poem" placeholder="Type your poem...">
-  //               </textarea>
-  //             </div>
-  //             <p>OR</p>
-  //             <div className = "inline">
-  //               <button className='upload'>Upload PDF/DOCX</button>
-  //               <button id="generate-button">Generate poem</button>
-  //             </div>
-  //           </div>
-  //         ) 
-  //       }
-  //       <br/>
-  //       <button type="submit">Classify</button>
-  //     </div>
-  //   </div>
-  // );
 }
 
 export default App
