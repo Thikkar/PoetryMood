@@ -48,10 +48,9 @@ function App() {
     console.log("generate button clicked");
     setPoem("Generating...")
 
-    prompt = "As a decrepit father takes delight When a babe falls asleep"
     axios({
       method: "GET",
-      url:`http://127.0.0.1:5000/generate?prompt=${prompt}`,
+      url:`http://127.0.0.1:5000/generate`,
     })
     .then((response) => {
       const res = response.data
