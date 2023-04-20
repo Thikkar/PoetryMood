@@ -1,8 +1,12 @@
 import torch
 import pickle
+import random
 from sklearn.feature_extraction.text import TfidfVectorizer
 from flask import Flask, request, jsonify
 from transformers import GPT2LMHeadModel,  GPT2Tokenizer, GPT2Config, GPT2LMHeadModel
+
+## TODO ##
+prompts = ["As a decrepit father takes delight"]
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -38,17 +42,18 @@ def classify():
 
 @api.route('/generate')
 def generate():
-    prompt = request.args.get('prompt', default=" ", type=str)
+    prompt_idx = random.randint(0, len(prompts) - 1)
+    prompt = prompts[prompt_idx]
     tokenized_prompt = torch.tensor(tokenizer.encode(prompt)).unsqueeze(0)
     tokenized_prompt = tokenized_prompt
 
     generated_outputs = generator_model.generate(
                                     tokenized_prompt, 
-                                    do_sample=True,   
-                                    top_k=50, 
                                     max_length = 300,
-                                    top_p=0.95, 
-                                    num_return_sequences=3
+                                    num_return_sequences=3,
+                                    num_beams=5,
+                                    no_repeat_ngram_size=2, 
+                                    early_stopping=True
                                     )
 
     decoded_poem = tokenizer.decode(generated_outputs[0], skip_special_tokens=True)
