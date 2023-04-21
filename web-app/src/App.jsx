@@ -56,10 +56,12 @@ function App() {
   {
     console.log("generate button clicked");
     setPoem("Generating...")
+    
+    let queryParams = (poem === "") ? "" : `?prompt=${poem}` 
 
     axios({
       method: "GET",
-      url:`http://127.0.0.1:5000/generate`,
+      url:`http://127.0.0.1:5000/generate${queryParams}`,
     })
     .then((response) => {
       const res = response.data
