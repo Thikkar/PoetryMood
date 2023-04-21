@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import reactLogo from './assets/react.svg'
 import Select from 'react-select'
@@ -10,6 +10,7 @@ function App() {
   const [count, setCount] = useState(0)
   const [tab, setTab] = useState("user")
   // const [poem, setPoem] = useState("")
+  const [fileUploadState, setFileUploadState] = useState("")
   const options = [
     {value: 'sad', label: 'sad'}, 
     {value: 'love', label: 'love'},
@@ -65,11 +66,6 @@ function App() {
     })
   }
 
-  function uploadClicked()
-  {
-    console.log("upload button clicked");
-  }
-
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS theme={{colorScheme: 'light'}}>
       <Title
@@ -83,22 +79,16 @@ function App() {
         <div id="enter-poem-area">
           <h3>Poem:</h3>
           <Textarea
-            placeholder='Start your poem here...'
+            placeholder='Start your poem here or paste a full poem...'
             autosize
             minRows={4}
             maxRows={10}
           >
 
           </Textarea>
-          <p>-----</p>
+          <p>OR</p>
           <div style={{"display" : "flex", "flexDirection" : "row"}}>
-            <div style={{"margin" : "10px"}}>
-              <Button color="indigo" variant="outline" onClick={uploadClicked}>
-                Upload PDF/DOCX
-              </Button>
-            </div>
-            <p>OR</p>
-            <div style={{"margin" : "10px"}}>
+            <div style={{"margin" : "17px"}}>
             <Button variant="outline" onClick={generateClicked}>
               Generate poem
             </Button>
