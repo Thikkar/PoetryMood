@@ -42,8 +42,11 @@ def classify():
 
 @api.route('/generate')
 def generate():
+    args = request.args
     prompt_idx = random.randint(0, len(prompts) - 1)
     prompt = prompts[prompt_idx]
+    prompt = args.get('prompt', default=prompt, type=str)
+    print(prompt)
     tokenized_prompt = torch.tensor(tokenizer.encode(prompt)).unsqueeze(0)
     tokenized_prompt = tokenized_prompt
 
