@@ -48,9 +48,11 @@ function App() {
     console.log("generate button clicked");
     setPoem("Generating...")
 
+    let queryParams = (poem === "") ? "" : `?prompt=${poem}` 
+
     axios({
       method: "GET",
-      url:`http://127.0.0.1:5000/generate`,
+      url:`http://127.0.0.1:5000/generate${queryParams}`,
     })
     .then((response) => {
       const res = response.data
@@ -78,6 +80,7 @@ function App() {
       >
         PoetryMood
       </Title>
+      {poem}
       {classification}
       <div className="panels">
         <div id="enter-poem-area">
@@ -88,6 +91,7 @@ function App() {
             minRows={4}
             maxRows={10}
             onChange={(e) => {setPoem(e.target.value)}}
+            value={poem}
           >
 
           </Textarea>
