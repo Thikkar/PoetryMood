@@ -27,7 +27,7 @@ function App() {
   useEffect(() => {
     if(poem != "")
     {
-      setDisplayPoem(true);
+      //setDisplayPoem(true);
       console.log("poem value changed...");
     }
   }, [poem]);
@@ -35,7 +35,7 @@ function App() {
   function classifyClicked()
   {
     console.log("classify button clicked");
-
+    setDisplayPoem(true)
     axios({
       method: "GET",
       url:`http://127.0.0.1:5000/classify?poem=${poem}`,
@@ -57,11 +57,9 @@ function App() {
     console.log("generate button clicked");
     setPoem("Generating...")
 
-    let queryParams = (poem === "") ? "" : `?prompt=${poem}` 
-
     axios({
       method: "GET",
-      url:`http://127.0.0.1:5000/generate${queryParams}`,
+      url:`http://127.0.0.1:5000/generate`,
     })
     .then((response) => {
       const res = response.data
@@ -89,8 +87,6 @@ function App() {
       >
         PoetryMood
       </Title>
-      {poem}
-      {classification}
       <div className="panels">
         <div id="enter-poem-area">
           <h3>Poem:</h3>
@@ -100,7 +96,6 @@ function App() {
             minRows={4}
             maxRows={10}
             onChange={(e) => {setPoem(e.target.value)}}
-            value={poem}
           >
 
           </Textarea>
@@ -128,10 +123,12 @@ function App() {
           Classify!
         </Button>
         { displayPoem &&  (
+            <div style={{"marginTop" : "50px", "marginLeft" : "30px"}}>
             <Text
               variant="gradient"
-              gradient={{from : 'red', to : 'cyan', deg: 45}}
+              gradient={{from : 'red', to : 'orange', deg: 45}}
             >{poem}</Text>
+            </div>
           )}
 
           { !displayPoem && (
