@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from "axios";
 import reactLogo from './assets/react.svg'
 import Select from 'react-select'
 import './App.css'
 
-import { MantineProvider, Button, Skeleton, Textarea, Title} from '@mantine/core';
+import { MantineProvider, Button, Skeleton, Textarea, Title, Text} from '@mantine/core';
 
 function App() {
   const [count, setCount] = useState(0)
@@ -20,8 +20,17 @@ function App() {
     {value: 'inspirational', label: 'inspirational'},
   ]
 
-  const [classification, setClassification] = useState("")
-  const [poem, setPoem] = useState("")
+  const [classification, setClassification] = useState("");
+  const [poem, setPoem] = useState("");
+  const [displayPoem, setDisplayPoem] = useState(false);
+
+  useEffect(() => {
+    if(poem != "")
+    {
+      setDisplayPoem(true);
+      console.log("poem value changed...");
+    }
+  }, [poem]);
 
   function classifyClicked()
   {
@@ -114,11 +123,20 @@ function App() {
           >
           Classify!
         </Button>
-        <div style={{"marginTop" : "50px", "marginLeft" : "30px"}}>
-          <Skeleton height={500} width={600}>
-          
-          </Skeleton>
-        </div>
+        { displayPoem &&  (
+            <Text
+              variant="gradient"
+              gradient={{from : 'red', to : 'cyan', deg: 45}}
+            >{poem}</Text>
+          )}
+
+          { !displayPoem && (
+            <div style={{"marginTop" : "50px", "marginLeft" : "30px"}}>
+            <Skeleton height={500} width={600}>
+            
+            </Skeleton>
+          </div>
+          )}
       </div>
     </MantineProvider>
   );
