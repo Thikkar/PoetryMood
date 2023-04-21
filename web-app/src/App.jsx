@@ -87,6 +87,7 @@ function App() {
             autosize
             minRows={4}
             maxRows={10}
+            onChange={(e) => {setPoem(e.target.value)}}
           >
 
           </Textarea>
