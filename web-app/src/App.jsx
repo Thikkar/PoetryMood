@@ -24,6 +24,7 @@ function App() {
   const [poem, setPoem] = useState("");
   const [displayPoem, setDisplayPoem] = useState(false);
   const [theme, setTheme] = useState("light");
+  const [grad, setGrad] = useState(['darkgray', 'darkgray'])
 
   useEffect(() => {
     if(poem != "")
@@ -32,6 +33,32 @@ function App() {
       console.log("poem value changed...");
     }
   }, [poem]);
+
+  function setGradient() {
+    if (classification = 'evil') {
+      setGrad(['darkorchid', 'maroon'])
+    }
+    if (classification = 'sad') {
+      setGrad(['dodgerblue', 'darkturquoise'])
+    }
+    if (classification = 'love') {
+      setGrad(['red', 'salmon'])
+      
+    }
+    if (classification = 'nature') {
+      setGrad(['seagreen', 'springgreen'])
+    }
+    if (classification = 'happy') {
+      setGrad(['gold', 'darkorange'])
+    }
+    if (classification = 'inspirational') {
+      setGrad(['mediumslateblue', 'mediumseagreen'])
+    }
+    if (classification = 'family') {
+      setGrad(['rosybrown', 'peru'])
+    }
+  
+  }
 
   function classifyClicked()
   {
@@ -44,6 +71,8 @@ function App() {
     .then((response) => {
       const res = response.data
       setClassification(res.classification)
+      setGradient()
+      console.log(grad)
     }).catch((error) => {
       if (error.response) {
         console.log(error.response)
@@ -52,6 +81,8 @@ function App() {
         }
     })
   }
+
+ 
 
   function generateClicked()
   {
@@ -154,9 +185,10 @@ function App() {
         </Button>
         { displayPoem &&  (
             <div className="poem-textarea" style={{"marginTop" : "50px", "marginLeft" : "30px"}}>
+            <Text>{classification}</Text>
             <Text
               variant="gradient"
-              gradient={{from : 'red', to : 'orange', deg: 45}}
+              gradient = {{from: grad[0], to : grad[1], deg: 45}}
             >{poem}</Text>
             </div>
           )}
