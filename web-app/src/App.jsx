@@ -4,22 +4,9 @@ import reactLogo from './assets/react.svg'
 import Select from 'react-select'
 import './App.css'
 
-import { MantineProvider, Button, Skeleton, Textarea, Title, Text, Switch} from '@mantine/core';
+import { MantineProvider, Button, Skeleton, Textarea, Title, Text, Switch, Mark} from '@mantine/core';
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [tab, setTab] = useState("user")
-  // const [poem, setPoem] = useState("")
-  const options = [
-    {value: 'sad', label: 'sad'},   
-    {value: 'love', label: 'love'},
-    {value: 'nature', label: 'nature'},
-    {value: 'family', label: 'family'},
-    {value: 'happy', label: 'happy'},
-    {value: 'evil', label: 'evil'},
-    {value: 'inspirational', label: 'inspirational'},
-  ]
-
   const [classification, setClassification] = useState("");
   const [poem, setPoem] = useState("");
   const [displayPoem, setDisplayPoem] = useState(false);
@@ -153,11 +140,20 @@ function App() {
           Classify!
         </Button>
         { displayPoem &&  (
-            <div className="poem-classify-textarea" style={{"marginTop" : "50px", "marginLeft" : "30px"}}>
-            <Text
-              variant="gradient"
-              gradient={{from : 'red', to : 'orange', deg: 45}}
-            >{poem}</Text>
+            <div>
+              <Title
+                order={3}
+                underline={true}
+                back
+                >
+                <Mark>Classification: {classification}</Mark>
+              </Title>
+              <div className="poem-classify-textarea" style={{"marginTop" : "50px", "marginLeft" : "30px"}}>
+              <Text
+                variant="gradient"
+                gradient={{from : 'red', to : 'orange', deg: 45}}
+              >{poem}</Text>
+              </div>
             </div>
           )}
 
