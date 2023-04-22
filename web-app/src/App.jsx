@@ -126,7 +126,8 @@ function App() {
         <div id="enter-poem-area">
           <h3>Poem:</h3>
           <textarea type="text" className="poem_input"
-          onChange={(e) => {setPoem(e.target.value)}}>
+          onChange={(e) => {setPoem(e.target.value)}}
+          value={poem}>
 
           </textarea>
           {/* <Textarea
