@@ -197,13 +197,13 @@ function App() {
           Classify!
         </Button>
         { displayPoem &&  (
-          <div>
+          <div className="poem-classify-container">
               <Title
                 order={3}
                 underline={true}
                 back
               >
-                <Mark>Classification: {classification}</Mark>
+                <Mark color={grad[0]}>Classification: {classification}</Mark>
               </Title>
             <div className="poem-classify-textarea" style={{"marginTop" : "50px", "marginLeft" : "30px"}}>
               <Text
