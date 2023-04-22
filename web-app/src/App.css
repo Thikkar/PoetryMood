@@ -18,6 +18,10 @@
   align-items: center;
 }
 
+.poem-textarea {
+  white-space: pre-line;
+}
+
 #generate-select {
   margin: 0 0.5rem;
 }
