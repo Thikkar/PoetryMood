@@ -11,6 +11,7 @@ function App() {
   const [poem, setPoem] = useState("");
   const [displayPoem, setDisplayPoem] = useState(false);
   const [theme, setTheme] = useState("light");
+  const [grad, setGrad] = useState(['darkgray', 'darkgray'])
 
   useEffect(() => {
     if(poem != "")
@@ -19,6 +20,32 @@ function App() {
       console.log("poem value changed...");
     }
   }, [poem]);
+
+  function setGradient(classification_) {
+    if (classification_ === 'evil') {
+      setGrad(['darkorchid', 'maroon'])
+    }
+    if (classification_ === 'sad') {
+      setGrad(['dodgerblue', 'darkturquoise'])
+    }
+    if (classification_ === 'love') {
+      setGrad(['red', 'salmon'])
+      
+    }
+    if (classification_ === 'nature') {
+      setGrad(['seagreen', 'springgreen'])
+    }
+    if (classification_ === 'happy') {
+      setGrad(['gold', 'darkorange'])
+    }
+    if (classification_ === 'inspirational') {
+      setGrad(['mediumslateblue', 'mediumseagreen'])
+    }
+    if (classification_ === 'family') {
+      setGrad(['rosybrown', 'peru'])
+    }
+  
+  }
 
   function classifyClicked()
   {
@@ -31,6 +58,8 @@ function App() {
     .then((response) => {
       const res = response.data
       setClassification(res.classification)
+      setGradient(res.classification)
+      console.log(grad)
     }).catch((error) => {
       if (error.response) {
         console.log(error.response)
@@ -39,6 +68,8 @@ function App() {
         }
     })
   }
+
+ 
 
   function generateClicked()
   {
@@ -85,7 +116,7 @@ function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS theme={{colorScheme: theme }}>
       <div style={{"position" : "absolute", "right" : "50px", "display" : "inline-flex"}}>
-        <div style={{"margin-right" : "10px"}}>
+        <div style={{"marginRight" : "10px"}}>
           <Text
             size="xs"
           >
@@ -140,20 +171,12 @@ function App() {
           Classify!
         </Button>
         { displayPoem &&  (
-            <div>
-              <Title
-                order={3}
-                underline={true}
-                back
-                >
-                <Mark>Classification: {classification}</Mark>
-              </Title>
-              <div className="poem-classify-textarea" style={{"marginTop" : "50px", "marginLeft" : "30px"}}>
-              <Text
-                variant="gradient"
-                gradient={{from : 'red', to : 'orange', deg: 45}}
-              >{poem}</Text>
-              </div>
+            <div className="poem-classify-textarea" style={{"marginTop" : "50px", "marginLeft" : "30px"}}>
+            <Text>{classification}</Text>
+            <Text
+              variant="gradient"
+              gradient = {{from: grad[0], to : grad[1], deg: 45}}
+            >{poem}</Text>
             </div>
           )}
 
