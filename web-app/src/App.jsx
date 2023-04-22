@@ -171,7 +171,7 @@ function App() {
           Classify!
         </Button>
         { displayPoem &&  (
-            <div className="poem-textarea" style={{"marginTop" : "50px", "marginLeft" : "30px"}}>
+            <div className="poem-classify-textarea" style={{"marginTop" : "50px", "marginLeft" : "30px"}}>
             <Text>{classification}</Text>
             <Text
               variant="gradient"
