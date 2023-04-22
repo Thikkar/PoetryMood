@@ -189,10 +189,11 @@ function App() {
           <div className="poem-classify-container">
               <Title
                 order={3}
-                underline={true}
                 back
               >
-                <Mark color={grad[0]}>Classification: {classification}</Mark>
+                <Mark color={grad[0]} id="classification-title">
+                  Classification: {classification.toUpperCase()}
+                </Mark>
               </Title>
             <div className="poem-classify-textarea" style={{"marginTop" : "50px", "marginLeft" : "30px"}}>
               <Text

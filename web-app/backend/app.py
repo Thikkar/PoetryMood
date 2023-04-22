@@ -44,6 +44,7 @@ def classify():
 def generate():
     args = request.args
     prompt_idx = random.randint(0, len(prompts) - 1)
+    print(prompt_idx)
     prompt = prompts[prompt_idx]
     prompt = args.get('prompt', default=prompt, type=str)
     print(prompt)
