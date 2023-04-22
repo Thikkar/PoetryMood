@@ -99,10 +99,10 @@ function App() {
         console.log(n)
         n=n+1;
         if(n<poem_str.length){
-          setTimeout(doStuff, 20);
+          setTimeout(doStuff, 6000/poem_str.length);
         }
       }
-      setTimeout(doStuff, 20);
+      setTimeout(doStuff, 6000/poem_str.length);
       console.log("after")
       
       
