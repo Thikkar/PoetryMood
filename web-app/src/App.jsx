@@ -3,6 +3,7 @@ import axios from "axios";
 import reactLogo from './assets/react.svg'
 import Select from 'react-select'
 import './App.css'
+import { InfinitySpin } from 'react-loader-spinner'
 
 import { MantineProvider, Button, Skeleton, Textarea, Title, Text, Switch, Mark} from '@mantine/core';
 
@@ -12,6 +13,7 @@ function App() {
   const [displayPoem, setDisplayPoem] = useState(false);
   const [theme, setTheme] = useState("light");
   const [grad, setGrad] = useState(['gray', 'darkgray'])
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if(poem != "")
@@ -78,6 +80,7 @@ function App() {
     console.log("generate button clicked");
     setPoem("Generating...")
     setDisplayPoem(false)
+    setIsLoading(true)
     
     let queryParams = (poem === "") ? "" : `?prompt=${poem}` 
 
@@ -86,6 +89,8 @@ function App() {
       url:`http://127.0.0.1:5000/generate${queryParams}`,
     })
     .then((response) => {
+      setIsLoading(false)
+
       const res = response.data
       console.log(res)
       console.log(res.poem)
@@ -106,12 +111,6 @@ function App() {
       }
       setTimeout(doStuff, 6000/poem_str.length);
       console.log("after")
-      
-      
-      
-
-      // setPoem(res.poem)
-
 
     }).catch((error) => {
       if (error.response) {
@@ -158,16 +157,24 @@ function App() {
       <div className="panels">
         <div id="enter-poem-area">
           <h3>Poem:</h3>
-          <Textarea
-            id="enter-poem-textarea"
-            placeholder='Start your poem here...'
-            size={'xl'}
-            minRows={10}
-            onChange={(e) => {setPoem(e.target.value); setDisplayPoem(false)}}
-            value={poem}
-          >
+          {isLoading && (
+            <InfinitySpin 
+              width='200'
+              color="blue"
+            />
+          )}
+          {!isLoading && (
+            <Textarea
+              id="enter-poem-textarea"
+              placeholder='Start your poem here...'
+              size={'xl'}
+              minRows={10}
+              onChange={(e) => {setPoem(e.target.value); setDisplayPoem(false)}}
+              value={poem}
+            >
 
-          </Textarea>
+            </Textarea>
+          )}
           <p>OR</p>
           <div style={{"display" : "flex", "flexDirection" : "row"}}>
             <div>
