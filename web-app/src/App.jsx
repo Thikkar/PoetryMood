@@ -23,6 +23,13 @@ function App() {
   const [classification, setClassification] = useState("");
   const [poem, setPoem] = useState("");
   const [displayPoem, setDisplayPoem] = useState(false);
+  const isSad  = useState(false);
+  const isEvil = useState(false);
+  const isHappy = useState(false);
+  const isLove = useState(false);
+  const isInspirational = useState(false);
+  const isFamily = useState(false);
+  const isNature = useState(false);
 
   useEffect(() => {
     if(poem != "")
@@ -35,6 +42,7 @@ function App() {
   function classifyClicked()
   {
     console.log("classify button clicked");
+    console.log(poem)
     setDisplayPoem(true)
     axios({
       method: "GET",
@@ -52,16 +60,15 @@ function App() {
     })
   }
 
+
   function generateClicked()
   {
     console.log("generate button clicked");
     setPoem("Generating...")
-    
-    let queryParams = (poem === "") ? "" : `?prompt=${poem}` 
 
     axios({
       method: "GET",
-      url:`http://127.0.0.1:5000/generate${queryParams}`,
+      url:`http://127.0.0.1:5000/generate`,
     })
     .then((response) => {
       const res = response.data
@@ -92,7 +99,11 @@ function App() {
       <div className="panels">
         <div id="enter-poem-area">
           <h3>Poem:</h3>
-          <Textarea
+          <textarea type="text" className="poem_input"
+          onChange={(e) => {setPoem(e.target.value)}}>
+
+          </textarea>
+          {/* <Textarea
             placeholder='Start your poem here...'
             autosize
             minRows={4}
@@ -100,7 +111,7 @@ function App() {
             onChange={(e) => {setPoem(e.target.value)}}
           >
 
-          </Textarea>
+          </Textarea> */}
           <p>-----</p>
           <div style={{"display" : "flex", "flexDirection" : "row"}}>
             <div style={{"margin" : "10px"}}>
@@ -126,21 +137,13 @@ function App() {
         </Button>
         { displayPoem &&  (
             <div style={{"marginTop" : "50px", "marginLeft" : "30px"}}>
-            <Text
-              variant="gradient"
-              gradient={{from : 'red', to : 'orange', deg: 45}}
-            >{poem}</Text>
+              <textarea type="text" className="poem_text_display">
+              {poem}
+              </textarea>
+              
             </div>
           )}
-
-          { !displayPoem && (
-            <div style={{"marginTop" : "50px", "marginLeft" : "30px"}}>
-            <Skeleton height={500} width={600}>
-            
-            </Skeleton>
-          </div>
-          )}
-      </div>
+        </div>
     </MantineProvider>
   );
 

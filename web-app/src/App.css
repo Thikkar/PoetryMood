@@ -46,3 +46,38 @@
   }
 }
 
+.poem_input {
+    width: 100%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    resize: none;
+    color: black;
+}
+
+.poem_text_display{
+  width: 100%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  resize: none;
+
+    background-image: linear-gradient(
+  90deg,
+  hsl(136deg 63% 28%) 0%,
+  hsl(147deg 66% 34%) 29%,
+  hsl(156deg 71% 40%) 43%,
+  hsl(155deg 89% 41%) 57%,
+  hsl(135deg 70% 52%) 71%,
+  hsl(97deg 90% 49%) 100%
+);
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+}
