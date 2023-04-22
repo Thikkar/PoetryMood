@@ -18,6 +18,11 @@
   align-items: center;
 }
 
+.poem-classify-container {
+  margin-left: 30px;
+
+}
+
 .poem-classify-textarea {
   white-space: pre-line;
   max-height: 500px;
