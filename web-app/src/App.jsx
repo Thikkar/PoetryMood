@@ -30,7 +30,7 @@ function App() {
       setDisplayPoem(true);
       console.log("poem value changed...");
     }
-  }, [poem]);
+  });
 
   function classifyClicked()
   {
@@ -66,7 +66,31 @@ function App() {
     .then((response) => {
       const res = response.data
       console.log(res)
-      setPoem(res.poem)
+      console.log(res.poem)
+
+      var poem_str = res.poem
+      var n = 1
+      console.log("Poem str is")
+      console.log(poem_str)
+      console.log("before")
+      
+      function doStuff() {
+        setPoem(poem_str.slice(0,n))
+        console.log(n)
+        n=n+1;
+        if(n<poem_str.length){
+          setTimeout(doStuff, 20);
+        }
+      }
+      setTimeout(doStuff, 20);
+      console.log("after")
+      
+      
+      
+
+      // setPoem(res.poem)
+
+
     }).catch((error) => {
       if (error.response) {
         console.log(error.response)
@@ -75,6 +99,8 @@ function App() {
         }
     })
   }
+
+  
 
   function uploadClicked()
   {
