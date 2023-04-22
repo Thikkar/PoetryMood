@@ -4,14 +4,14 @@ import reactLogo from './assets/react.svg'
 import Select from 'react-select'
 import './App.css'
 
-import { MantineProvider, Button, Skeleton, Textarea, Title, Text} from '@mantine/core';
+import { MantineProvider, Button, Skeleton, Textarea, Title, Text, Switch} from '@mantine/core';
 
 function App() {
   const [count, setCount] = useState(0)
   const [tab, setTab] = useState("user")
   // const [poem, setPoem] = useState("")
   const options = [
-    {value: 'sad', label: 'sad'}, 
+    {value: 'sad', label: 'sad'},   
     {value: 'love', label: 'love'},
     {value: 'nature', label: 'nature'},
     {value: 'family', label: 'family'},
@@ -30,6 +30,7 @@ function App() {
   const isInspirational = useState(false);
   const isFamily = useState(false);
   const isNature = useState(false);
+  const [theme, setTheme] = useState("light");
 
   useEffect(() => {
     if(poem != "")
@@ -88,8 +89,33 @@ function App() {
     console.log("upload button clicked");
   }
 
+  function themeSwitched()
+  {
+    if(theme == "dark")
+    {
+      setTheme("light");
+    }
+    else
+    {
+      setTheme("dark");
+    }
+  }
+
   return (
-    <MantineProvider withGlobalStyles withNormalizeCSS theme={{colorScheme: 'light'}}>
+    <MantineProvider withGlobalStyles withNormalizeCSS theme={{colorScheme: theme }}>
+      <div style={{"position" : "absolute", "right" : "50px", "display" : "inline-flex"}}>
+        <div style={{"margin-right" : "10px"}}>
+          <Text
+            size="xs"
+          >
+            Dark mode:    
+          </Text>
+        </div>
+        <Switch
+          onChange={themeSwitched}
+        />
+      </div>
+      
       <Title
         order={1}
 
