@@ -57,6 +57,7 @@ function App() {
   {
     console.log("generate button clicked");
     setPoem("Generating...")
+    setDisplayPoem(false)
     
     let queryParams = (poem === "") ? "" : `?prompt=${poem}` 
 
@@ -123,7 +124,8 @@ function App() {
             autosize
             minRows={4}
             maxRows={10}
-            onChange={(e) => {setPoem(e.target.value)}}
+            onChange={(e) => {setPoem(e.target.value); setDisplayPoem(false)}}
+            value={poem}
           >
 
           </Textarea>
@@ -151,7 +153,7 @@ function App() {
           Classify!
         </Button>
         { displayPoem &&  (
-            <div style={{"marginTop" : "50px", "marginLeft" : "30px"}}>
+            <div className="poem-textarea" style={{"marginTop" : "50px", "marginLeft" : "30px"}}>
             <Text
               variant="gradient"
               gradient={{from : 'red', to : 'orange', deg: 45}}
