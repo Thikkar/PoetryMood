@@ -11,7 +11,7 @@ function App() {
   const [poem, setPoem] = useState("");
   const [displayPoem, setDisplayPoem] = useState(false);
   const [theme, setTheme] = useState("light");
-  const [grad, setGrad] = useState(['darkgray', 'darkgray'])
+  const [grad, setGrad] = useState(['gray', 'darkgray'])
 
   useEffect(() => {
     if(poem != "")
@@ -22,28 +22,30 @@ function App() {
   });
 
   function setGradient(classification_) {
+    console.log(classification_)
     if (classification_ === 'evil') {
-      setGrad(['darkorchid', 'maroon'])
+      return ['red', 'maroon']
     }
     if (classification_ === 'sad') {
-      setGrad(['dodgerblue', 'darkturquoise'])
+      return ['blue', 'darkturquoise']
     }
     if (classification_ === 'love') {
-      setGrad(['red', 'salmon'])
-      
+      return ['pink', 'salmon']
     }
     if (classification_ === 'nature') {
-      setGrad(['seagreen', 'springgreen'])
+      return ['green', 'springgreen']
     }
     if (classification_ === 'happy') {
-      setGrad(['gold', 'darkorange'])
+      return ['yellow', 'darkorange']
     }
     if (classification_ === 'inspirational') {
-      setGrad(['mediumslateblue', 'mediumseagreen'])
+      return ['violet', 'mediumseagreen']
     }
     if (classification_ === 'family') {
-      setGrad(['rosybrown', 'peru'])
+      return ['orange', 'peru']
     }
+
+    return ['gray', 'darkgray']
   
   }
 
@@ -58,8 +60,8 @@ function App() {
     .then((response) => {
       const res = response.data
       setClassification(res.classification)
-      setGradient(res.classification)
-      console.log(grad)
+      let new_grad = setGradient(res.classification)
+      setGrad(new_grad)
     }).catch((error) => {
       if (error.response) {
         console.log(error.response)
@@ -120,13 +122,6 @@ function App() {
     })
   }
 
-  
-
-  function uploadClicked()
-  {
-    console.log("upload button clicked");
-  }
-
   function themeSwitched()
   {
     if(theme == "dark")
@@ -164,27 +159,21 @@ function App() {
         <div id="enter-poem-area">
           <h3>Poem:</h3>
           <Textarea
+            id="enter-poem-textarea"
             placeholder='Start your poem here...'
-            autosize
-            minRows={4}
-            maxRows={10}
+            size={'xl'}
+            minRows={10}
             onChange={(e) => {setPoem(e.target.value); setDisplayPoem(false)}}
             value={poem}
           >
 
           </Textarea>
-          <p>-----</p>
+          <p>OR</p>
           <div style={{"display" : "flex", "flexDirection" : "row"}}>
-            <div style={{"margin" : "10px"}}>
-              <Button color="indigo" variant="outline" onClick={uploadClicked}>
-                Upload PDF/DOCX
+            <div>
+              <Button className="generate-button" variant="outline" onClick={generateClicked}>
+                Generate/Complete Poem
               </Button>
-            </div>
-            <p>OR</p>
-            <div style={{"margin" : "10px"}}>
-            <Button variant="outline" onClick={generateClicked}>
-              Generate poem
-            </Button>
             </div>
           </div>
         </div>

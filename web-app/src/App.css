@@ -18,6 +18,17 @@
   align-items: center;
 }
 
+#enter-poem-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#enter-poem-textarea {
+  width: 400px;
+}
+
 .poem-classify-container {
   margin-left: 30px;
 
